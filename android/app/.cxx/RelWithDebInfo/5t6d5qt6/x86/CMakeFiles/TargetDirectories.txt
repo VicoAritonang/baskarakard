@@ -1,0 +1,2 @@
+C:/Users/Vico/Documents/app/baskarakard/android/app/.cxx/RelWithDebInfo/5t6d5qt6/x86/CMakeFiles/edit_cache.dir
+C:/Users/Vico/Documents/app/baskarakard/android/app/.cxx/RelWithDebInfo/5t6d5qt6/x86/CMakeFiles/rebuild_cache.dir
