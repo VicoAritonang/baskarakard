@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:appw/screens/detail_artikel.dart';
-import 'package:appw/screens/kartu_page.dart';
-import 'package:appw/screens/qr_scanner.dart';
-import 'package:appw/screens/diary_page.dart';
-import 'package:appw/screens/menu_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class HomePage extends StatefulWidget {

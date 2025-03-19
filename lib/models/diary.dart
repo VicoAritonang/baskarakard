@@ -1,4 +1,3 @@
-import 'dart:io';
 
 class Diary {
   final String id;
