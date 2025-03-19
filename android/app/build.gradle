@@ -37,18 +37,22 @@ android {
     }
 
     signingConfigs {
-        release {
-                storeFile file("../../release-keystore.jks")
-                storePassword = "$System.env.KEY_PASSWORD"
-                keyAlias = "release"
-                keyPassword = "$System.env.KEY_PASSWORD"
+        debug {
+            // Use the default debug keystore
         }
-}
+    }
+
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources true
         }
-}
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
     lint {
         disable 'InvalidPackage'
         checkReleaseBuilds false
@@ -89,4 +93,8 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    // Flutter embedding dependencies
+    implementation 'io.flutter.embedding.android:flutter_embedding_release:1.0.0-18b71d647a292a980abb405ac7d16fe1f0b20434'
+    implementation 'io.flutter.embedding.engine:flutter_embedding_engine_release:1.0.0-18b71d647a292a980abb405ac7d16fe1f0b20434'
 }
