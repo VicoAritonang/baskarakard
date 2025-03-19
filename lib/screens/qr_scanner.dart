@@ -426,30 +426,6 @@ class _QRScannerPageState extends State<QRScannerPage>
 
                     const SizedBox(height: 24),
 
-                    // Web warning if applicable
-                    if (kIsWeb)
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        margin: const EdgeInsets.only(bottom: 16),
-                        decoration: BoxDecoration(
-                          color: Colors.amber.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Column(
-                          children: [
-                            Icon(Icons.info_outline, color: Colors.black87),
-                            SizedBox(height: 8),
-                            Text(
-                              'Pemindai QR bekerja lebih baik di aplikasi mobile. Untuk pengalaman terbaik, gunakan Android atau iOS.',
-                              style: TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
-
                     // Restart camera button
                     ElevatedButton.icon(
                       onPressed: () {
