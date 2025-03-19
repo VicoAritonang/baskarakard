@@ -1,5 +1,5 @@
 # Baskara Card
-
+[![Build status](https://build.appcenter.ms/v0.1/apps/9b2fe2fc-7ab6-4be2-ace8-c7182ecd688b/branches/main/badge)](https://appcenter.ms)
 Aplikasi Flutter untuk Baskara Card yang menggunakan Firebase dan QR scanner.
 
 ## Cara Build di App Center
