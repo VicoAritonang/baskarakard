@@ -1,3 +1,5 @@
+def kotlin_version = "1.9.10"
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
@@ -38,12 +40,13 @@ android {
                 keyAlias = "release"
                 keyPassword = "$System.env.KEY_PASSWORD"
         }
-}
+    }
+
     buildTypes {
         release {
             signingConfig signingConfigs.release
         }
-}
+    }
 }
 
 flutter {
@@ -60,7 +63,7 @@ dependencies {
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     // Add App Center dependencies
     def appCenterSdkVersion = '5.0.4'
