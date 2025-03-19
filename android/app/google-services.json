@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:869499843828:android:d7eb08fe5a4dd0c28f9aa1",
+        "mobilesdk_app_id": "1:869499843828:android:93773f398569fb018f9aa1",
         "android_client_info": {
-          "package_name": "com.example.appw"
+          "package_name": "com.baskaracard.app"
         }
       },
       "oauth_client": [],

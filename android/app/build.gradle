@@ -33,21 +33,37 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled true
     }
 
     signingConfigs {
         release {
+            try {
                 storeFile file("../../release-keystore.jks")
-                storePassword = "$System.env.KEY_PASSWORD"
+                storePassword = System.getenv("KEY_PASSWORD")
                 keyAlias = "release"
-                keyPassword = "$System.env.KEY_PASSWORD"
+                keyPassword = System.getenv("KEY_PASSWORD")
+            } catch (Exception e) {
+                throw new GradleException("Signing config failed", e)
+            }
         }
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources true
         }
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    lint {
+        disable 'InvalidPackage'
+        checkReleaseBuilds false
     }
 }
 
@@ -71,4 +87,6 @@ dependencies {
     def appCenterSdkVersion = '5.0.4'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
