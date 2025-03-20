@@ -8,47 +8,69 @@ Untuk men-deploy aplikasi iOS ke App Center, ikuti langkah-langkah berikut:
 
 1. Buat akun di [App Center](https://appcenter.ms/) jika belum memilikinya
 2. Buat aplikasi baru di App Center untuk platform iOS
-3. Catat App Secret yang diberikan oleh App Center
+3. App Secret sudah dikonfigurasi di project: `fd066da5-8929-4595-9e91-403c87411364`
 
 ### 2. Konfigurasi Project
 
-1. Ganti `YOUR_IOS_APP_SECRET_HERE` di file `ios/Runner/AppCenter-Config.plist` dengan App Secret Anda
-2. Ganti string kosong di `AppCenter.start(withAppSecret: "", services: [` pada `ios/Runner/AppDelegate.swift` dengan App Secret Anda
-3. Pastikan Anda memiliki alamat email Apple Developer yang terdaftar
-4. Upload file provisioning profile (jika diperlukan) melalui dashboard App Center
+File-file berikut sudah dikonfigurasi dengan benar:
+- `ios/Runner/AppCenter-Config.plist` - Berisi App Secret
+- `ios/Runner/AppDelegate.swift` - Inisialisasi App Center
+- `ios/Podfile` - Konfigurasi CocoaPods
+- `ios/Flutter/Release.xcconfig` dan `ios/Flutter/Debug.xcconfig` - Tidak memerlukan Generated.xcconfig lagi
 
-### 3. Setup Build Configuration di App Center
+### 3. File Build Script
 
-1. Hubungkan repositori GitHub/Bitbucket/Azure DevOps Anda ke App Center
-2. Pilih branch yang ingin di-build
-3. Konfigurasikan build dengan:
-   - Pilih tipe signing "Ad hoc"
-   - Aktifkan opsi "Automatically increment build number"
-   - Pilih distribusi release ke grup yang diinginkan
+File-file build script berikut telah ditambahkan ke repo:
+- `appcenter-post-clone.sh` - Script yang dijalankan setelah repo di-clone
+- `appcenter-post-build.sh` - Script yang dijalankan setelah build (opsional)
 
-### 4. File Konfigurasi yang Telah Dibuat
+### 4. Setup Build Configuration di App Center
 
-- `ios/appcenter-post-clone.sh`: Script yang dijalankan setelah repo di-clone di App Center
-- `ios/Runner/AppCenter-Config.plist`: Konfigurasi App Center untuk iOS
-- `ios/Podfile`: File CocoaPods untuk dependensi iOS
+1. Connect repository:
+   - Hubungkan repositori GitHub/Bitbucket/Azure DevOps Anda ke App Center
+   - Pilih branch yang ingin di-build
+
+2. Build configuration:
+   - Pilih Xcode 14+ (versi terbaru yang tersedia)
+   - Scheme: Runner
+   - Configuration: Release
+   - SDK: Latest iOS
+   - Build for devices: Yes
+   - Automatic signing: Yes (jika menggunakan automatic signing)
+   - Increment build number: Yes
+
+3. Build scripts:
+   - Post-clone script: Pastikan path diatur ke `/appcenter-post-clone.sh`
+   - Post-build script: Opsional, atur ke `/appcenter-post-build.sh` jika diperlukan
+
+4. Distribution:
+   - Release type: Store atau Ad-hoc sesuai kebutuhan
+   - Destination: Pilih grup distribusi yang sesuai
+
+### 5. Troubleshooting iOS Build
+
+Jika build masih gagal, periksa log untuk error spesifik:
+
+1. **Generated.xcconfig tidak ditemukan**: 
+   - Script post-clone dibuat untuk mengatasi masalah ini
+   - File Debug.xcconfig dan Release.xcconfig sudah dimodifikasi untuk tidak memerlukan Generated.xcconfig
+
+2. **Cocoapods Issues**:
+   - Script post-clone akan menginstall dan menjalankan pod install
+   - Jika masih ada masalah, coba tambahkan langkah pod install yang terpisah
+
+3. **Signing Issues**:
+   - Konfigurasi dalam script diatur untuk non-signing build
+   - Jika memerlukan signed build, tambahkan provisioning profile di App Center
 
 ## Setup Android
 
-Untuk Android, pastikan file berikut sudah dikonfigurasi dengan benar:
+Android build telah sukses. Berikut pengaturan agar Android tetap berjalan lancar:
 
-- `android/app/appcenter-post-clone.sh`: Script yang dijalankan setelah repo di-clone di App Center
-- `android/app/build.gradle`: Pastikan menggunakan signing config yang benar
+- Debug signing config digunakan untuk release build saat ini
+- Keystore untuk release signing harus di-encode dengan base64 dan ditambahkan sebagai environment variable `KEY_JKS` di App Center jika diperlukan signing khusus
 
-### Catatan Penting
+## Catatan Penting
 
-- Keystore untuk release signing harus di-encode dengan base64 dan ditambahkan sebagai environment variable `KEY_JKS` di App Center
-- Untuk debug build, tidak diperlukan keystore khusus dan akan menggunakan debug keystore
-
-## Troubleshooting
-
-Jika mengalami masalah saat build:
-
-1. Pastikan semua script post-clone memiliki permission eksekusi (executable)
-2. Periksa log build di App Center untuk detail error yang lebih spesifik
-3. Pastikan versi Flutter yang di-clone di script post-clone kompatibel dengan project Anda
-4. Jika ada error CocoaPods, coba hapus Pod lockfile dan jalankan `pod install` ulang 
+- Jika ada perubahan struktur project, update script post-clone
+- Pastikan versi Flutter yang digunakan dalam script kompatibel dengan project Anda 
